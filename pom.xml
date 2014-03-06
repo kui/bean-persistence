@@ -3,10 +3,36 @@
   <groupId>jp.k_ui</groupId>
   <artifactId>bean-persistence</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <url>https://github.com/kui/bean-persistence</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+    <github.global.server>github</github.global.server>
   </properties>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <scm>
+    <url>https://github.com/kui/bean-persistence</url>
+    <connection>scm:git:https://github.com/kui/bean-persistence.git</connection>
+    <developerConnection>scm:git:https://github.com/kui/bean-persistence.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <url>file://${project.build.directory}/mvn-repo</url>
+    </repository>
+  </distributionManagement>
 
   <build>
     <plugins>
@@ -18,6 +44,25 @@
           <target>1.7</target>
           <source>1.7</source>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.9</version>
+        <configuration>
+          <message>Maven artifacts for ${project.version}</message>
+          <noJekyll>true</noJekyll>
+          <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+          <branch>refs/heads/mvn-repo</branch>
+          <includes><include>**/*</include></includes>
+          <merge>true</merge>
+        </configuration>
+        <executions>
+          <execution>
+            <goals><goal>site</goal></goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
